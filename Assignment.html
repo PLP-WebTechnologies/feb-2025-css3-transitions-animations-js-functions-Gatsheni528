@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CSS Animations + localStorage</title>
+  <style>
+    /* General body styling with smooth transitions for theme changes */
+    body {
+      font-family: sans-serif;
+      transition: background-color 0.5s ease, color 0.5s ease;
+      background-color: white;
+      color: black;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    /* Dark mode styling */
+    body.dark {
+      background-color: #121212;
+      color: white;
+    }
+
+    /* Button styling with hover effects */
+    button {
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    /* Button hover effect: scale up and change background color */
+    button:hover {
+      transform: scale(1.1);
+      background-color: #0056b3;
+    }
+
+    /* Image styling with transition for animations */
+    img {
+      width: 150px;
+      margin-top: 2rem;
+      transition: transform 1s ease;
+    }
+
+    /* Class for rotation animation */
+    .rotate {
+      animation: spin 1s linear;
+    }
+
+    /* Keyframes for spin animation */
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Animated Interface</h1>
+  <!-- Button to toggle between light and dark mode -->
+  <button onclick="toggleTheme()">Toggle Dark Mode</button>
+  <!-- Button to trigger image animation -->
+  <button onclick="animateImage()">Animate Image</button>
+
+  <br><br>
+  <!-- Image that will be animated -->
+  <img id="logo" src="Pic1.jpg" alt="Placeholder Image">
+
+  <script>
+    // Load theme preference from localStorage and apply it
+    function loadPreferences() {
+      const theme = localStorage.getItem('theme');
+      if (theme === 'dark') {
+        document.body.classList.add('dark');
+      }
+    }
+
+    // Toggle dark mode and save the preference in localStorage
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+      const isDark = document.body.classList.contains('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    }
+
+    // Animate the image by adding and removing the 'rotate' class
+    function animateImage() {
+      const logo = document.getElementById('logo');
+      logo.classList.remove('rotate'); // Reset animation if already applied
+      void logo.offsetWidth; // Force reflow to restart animation
+      logo.classList.add('rotate');
+    }
+
+    // Initialize theme preferences when the page loads
+    loadPreferences();
+  </script>
+</body>
+</html>
